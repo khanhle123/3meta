@@ -22,6 +22,9 @@ import { findPalaceByBranch, getClockwisePalaces, getCounterClockwisePalaces, ge
 
 export const getXunShou = (ganzhi: string): XunShou => {
   const idx = JIAZI.indexOf(ganzhi);
+  if (idx === -1) {
+    throw new Error(`getXunShou: 非法干支 "${ganzhi}"，必须是六十甲子之一`);
+  }
   const xunIdx = Math.floor(idx / 10) * 10;
   return JIAZI[xunIdx] as XunShou;
 };
@@ -42,6 +45,9 @@ export const getJuShu = (jieqi: string, yuan: Yuan, isYangdun: boolean): number 
 };
 
 export const arrangeDiPan = (juShu: number, isYangdun: boolean): Map<Position, HeavenlyStem> => {
+  if (!Number.isInteger(juShu) || juShu < 1 || juShu > 9) {
+    throw new Error(`arrangeDiPan: 局数必须是 1-9 的整数，收到 ${juShu}`);
+  }
   const result = new Map<Position, HeavenlyStem>();
   if (isYangdun) {
     SANQI_LIUYI.forEach((stem, i) => {

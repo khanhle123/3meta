@@ -88,12 +88,14 @@ const OVERCOME: Record<FiveElements, FiveElements> = {
 };
 
 export const getSeasonByMonthBranch = (branch: EarthlyBranch): Season => {
-  const monthNo = BRANCH_ORDER.indexOf(branch) + 1;
-  if ([1, 2].includes(monthNo)) return '春';
-  if ([4, 5].includes(monthNo)) return '夏';
-  if ([7, 8].includes(monthNo)) return '秋';
-  if ([10, 11].includes(monthNo)) return '冬';
-  return '四季月';
+  // 季节按月建（节气历）月支的五行判定：寅卯木=春, 巳午火=夏, 申酉金=秋, 亥子水=冬, 辰戌丑未土=四季月。
+  // 注意：不能用「子=正月」的序号映射，月建正月建寅，子月为十一月（冬）。
+  const element = BRANCH_FIVE_ELEMENTS[branch];
+  if (element === '木') return '春';
+  if (element === '火') return '夏';
+  if (element === '金') return '秋';
+  if (element === '水') return '冬';
+  return '四季月'; // 土
 };
 
 export const getMonthElementByBranch = (branch: EarthlyBranch): FiveElements => {

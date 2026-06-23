@@ -14,6 +14,7 @@ interface TestExpect<T> {
   toContain(expected: unknown): void;
   toBeInstanceOf(expected: new (...args: any[]) => unknown): void;
   toBeGreaterThan(expected: number): void;
+  toThrow(expected?: string | RegExp): void;
 }
 
 declare function expect<T>(actual: T): TestExpect<T>;

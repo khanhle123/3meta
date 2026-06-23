@@ -43,5 +43,12 @@ globalThis.expect = (actual) => ({
   },
   toBeGreaterThan(expected) {
     assert.ok(actual > expected);
+  },
+  toThrow(expected) {
+    assert.throws(actual, expected === undefined ? undefined : (err) => {
+      const message = err && err.message ? err.message : String(err);
+      if (expected instanceof RegExp) return expected.test(message);
+      return message.includes(expected);
+    });
   }
 });

@@ -4,7 +4,7 @@ import { QimenChart as IQimenChart, Palace, FourPillars, TimeInfo, Yuan, JuType,
 import { getXunShou, getYuan, getJuShu, arrangeDiPan, getZhiFuInfo, getZhiShiInfo, arrangeTianPan, arrangeDeities, arrangeGates, handleMiddlePalace, getZhiFuLuoGong, calculateLiuYiJiXing, calculateHiddenStems } from './calculator';
 import { PALACE_BRANCHES, PALACE_FIVE_ELEMENTS, PALACE_POSITIONS, XUN_SHOU_VOIDNESS, GATE_FIVE_ELEMENTS } from '../data/constants';
 
-import { getInnerOuter, buildVoidness, getPostHorse, calcGrowth, calcTombInfo, calcTenStemResponse, calcGatePressure, calcStatus, detectPatterns, calcMenPo, detectGlobalPatterns } from '../analysis';
+import { getInnerOuter, buildVoidness, getPostHorse, calcGrowth, calcTombInfo, calcTenStemResponse, calcGatePressure, calcStatus, detectPatterns, calcMenPo, detectGlobalPatterns, getSeasonByMonthBranch, getMonthElementByBranch } from '../analysis';
 
 const VERSION = '2.0.0';
 
@@ -52,6 +52,16 @@ export class QimenChart implements IQimenChart {
 
   static byDatetime(datetime: string | Date, opts?: { solarTerm?: string; isYangdun?: boolean; juNumber?: number; yearDivide?: 'normal' | 'exact' }) {
     const d = dayjs(datetime);
+    if (!d.isValid()) {
+      throw new Error(`QimenChart.byDatetime: 无法解析的日期时间 ${JSON.stringify(datetime)}`);
+    }
+    // 0 保留作为「自动定局」语义（与下方 `|| getJuShu` 兼容），其余必须是 1-9 整数
+    if (opts?.juNumber !== undefined && opts.juNumber !== 0 && (!Number.isInteger(opts.juNumber) || opts.juNumber < 1 || opts.juNumber > 9)) {
+      throw new Error(`QimenChart.byDatetime: juNumber 必须是 1-9 的整数，收到 ${opts.juNumber}`);
+    }
+    if (opts?.isYangdun !== undefined && typeof opts.isYangdun !== 'boolean') {
+      throw new Error(`QimenChart.byDatetime: isYangdun 必须是布尔值，收到 ${typeof opts.isYangdun} (${JSON.stringify(opts.isYangdun)})`);
+    }
     const dateStr = d.format('YYYY-MM-DD');
     const solar = Solar.fromYmdHms(d.year(), d.month() + 1, d.date(), d.hour(), d.minute(), d.second());
     const lunar = solar.getLunar();
@@ -80,23 +90,11 @@ export class QimenChart implements IQimenChart {
     const juNumRaw = opts?.juNumber || getJuShu(solarTerm, yuan, isYangdun);
     const juNum = juNumRaw === 0 ? getJuShu(lunar.getPrevJieQi(true)?.getName?.() || solarTerm, yuan, isYangdun) || 1 : juNumRaw;
     const ju: JuType = { type: isYangdun ? '阳遁' : '阴遁', number: juNum as any };
-    const solarMonth = d.month() + 1;
-    const seasonBySolar = (() => {
-      if ([1, 2].includes(solarMonth)) return '春';
-      if ([4, 5].includes(solarMonth)) return '夏';
-      if ([7, 8].includes(solarMonth)) return '秋';
-      if ([10, 11].includes(solarMonth)) return '冬';
-      return '四季月';
-    })();
-    const monthElementBySolar = (() => {
-      if (seasonBySolar === '春') return '木';
-      if (seasonBySolar === '夏') return '火';
-      if (seasonBySolar === '秋') return '金';
-      if (seasonBySolar === '冬') return '水';
-      return '土';
-    })();
-    const season = seasonBySolar;
-    const monthElement = monthElementBySolar;
+    // 八门九星旺衰所用季节，按月建（节气历）月支判定，而非公历月份。
+    // 四季月概念属阴历/节气历，「阳历没有这种说法」。
+    const monthBranch = fourPillars.month.branch as EarthlyBranch;
+    const season = getSeasonByMonthBranch(monthBranch);
+    const monthElement = getMonthElementByBranch(monthBranch);
 
     const diPan = arrangeDiPan(ju.number, isYangdun);
     const zhiFuInfo = getZhiFuInfo(xunShou, diPan);
@@ -245,7 +243,24 @@ export class QimenChart implements IQimenChart {
    * 快捷方法：直接用公历年月日时分秒生成排盘
    */
   static fromSolar(yyyy: number, MM: number, dd: number, hh = 0, mm = 0, ss = 0, opts?: { solarTerm?: string; isYangdun?: boolean; juNumber?: number; yearDivide?: 'normal' | 'exact' }) {
+    // 逐个字段校验，避免越界数值被 dayjs 静默进位成另一个日期（如 month=13 -> 次年一月）
+    const checkRange = (name: string, value: number, min: number, max: number) => {
+      if (!Number.isInteger(value) || value < min || value > max) {
+        throw new Error(`QimenChart.fromSolar: ${name} 必须是 ${min}-${max} 的整数，收到 ${value}`);
+      }
+    };
+    checkRange('year', yyyy, 1, 9999);
+    checkRange('month', MM, 1, 12);
+    checkRange('day', dd, 1, 31);
+    checkRange('hour', hh, 0, 23);
+    checkRange('minute', mm, 0, 59);
+    checkRange('second', ss, 0, 59);
     const iso = `${yyyy.toString().padStart(4, '0')}-${MM.toString().padStart(2, '0')}-${dd.toString().padStart(2, '0')}T${hh.toString().padStart(2, '0')}:${mm.toString().padStart(2, '0')}:${ss.toString().padStart(2, '0')}`;
+    // 防止合法范围内但日历不存在的日期（如 4 月 31、平年 2 月 29）被 dayjs 静默进位
+    const parsed = dayjs(iso);
+    if (parsed.year() !== yyyy || parsed.month() + 1 !== MM || parsed.date() !== dd) {
+      throw new Error(`QimenChart.fromSolar: 日历中不存在该日期 ${yyyy}-${MM}-${dd}`);
+    }
     return QimenChart.byDatetime(iso, opts);
   }
 
