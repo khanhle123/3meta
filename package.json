@@ -39,8 +39,7 @@
     "build:browser": "rollup -c",
     "build:all": "npm run build && npm run build:browser",
     "test": "node --import tsx --import ./script/test-globals.mjs --test \"src/__tests__/**/*.test.ts\"",
-    "lint": "echo 'lint not configured'",
-    "prepare": "npm run build:all"
+    "lint": "echo 'lint not configured'" 
   },
   "author": "3metaJun",
   "homepage": "https://docs.3meta.pub",
