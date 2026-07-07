@@ -39,7 +39,7 @@
     - 星门旺衰
     - 常用吉凶格局判断
     - 暗干信息
-    - 多语言支持 (zh-CN, zh-TW, en-US)
+    - 多语言支持 (zh-CN, zh-TW, en-US, vi-VN)
 
 ## 命令行工具 (CLI)
 
@@ -52,7 +52,7 @@ node bin/qimen.js --date 2023-12-01T12:00:00 --lang en-US
 
 支持参数：
 - `--date`: 日期时间 (ISO)
-- `--lang`: 语言 (zh-CN, zh-TW, en-US)
+- `--lang`: 语言 (zh-CN, zh-TW, en-US, vi-VN)
 - `--solarTerm`: 指定节气
 - 以及更多 (查看 `node bin/qimen.js --help`)
 

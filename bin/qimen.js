@@ -26,7 +26,7 @@ const help = () => {
   --isYangdun   手工指定阴阳遁 true/false
   --juNumber    手工指定局数 (1-9)
   --yearDivide  年分界 normal|exact (正月初一|立春)，默认 exact
-  --lang        语言 zh-CN (默认) | zh-TW | en-US
+  --lang        语言 zh-CN (默认) | zh-TW | en-US | vi-VN
   --help        显示本帮助
  输出: JSON
 `);

@@ -6,6 +6,7 @@ import { Locale, LocaleMessages, NestedKeyOf } from './types';
 import { zhCN } from './locales/zh-CN';
 import { zhTW } from './locales/zh-TW';
 import { enUS } from './locales/en-US';
+import { viVN } from './locales/vi-VN';
 
 class I18n {
   private locale: Locale = 'zh-CN';
@@ -13,6 +14,7 @@ class I18n {
     'zh-CN': zhCN,
     'zh-TW': zhTW,
     'en-US': enUS,
+    'vi-VN': viVN,
   };
 
   constructor() { }
@@ -97,5 +99,6 @@ export * from './types';
 export { zhCN } from './locales/zh-CN';
 export { zhTW } from './locales/zh-TW';
 export { enUS } from './locales/en-US';
+export { viVN } from './locales/vi-VN';
 export * from './formatters';
 

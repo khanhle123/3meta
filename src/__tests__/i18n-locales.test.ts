@@ -3,14 +3,16 @@ import { i18n } from '../i18n/index';
 import { zhCN } from '../i18n/locales/zh-CN';
 import { zhTW } from '../i18n/locales/zh-TW';
 import { enUS } from '../i18n/locales/en-US';
+import { viVN } from '../i18n/locales/vi-VN';
 
 describe('Phase 3: Locale Expansion', () => {
     describe('Locale Registry', () => {
-        it('should have zh-CN, zh-TW, and en-US registered', () => {
+        it('should have zh-CN, zh-TW, en-US, and vi-VN registered', () => {
             const locales = i18n.getAvailableLocales();
             expect(locales).toContain('zh-CN');
             expect(locales).toContain('zh-TW');
             expect(locales).toContain('en-US');
+            expect(locales).toContain('vi-VN');
         });
 
         it('should switch locales correctly', () => {
@@ -37,6 +39,12 @@ describe('Phase 3: Locale Expansion', () => {
             expect(enUS.language.name).toBe('English');
             expect(enUS.stems['甲']).toBe('Jia');
             expect(enUS.gates['休门']).toBe('Rest Gate');
+        });
+
+        it('should have corresponding keys for vi-VN', () => {
+            expect(viVN.language.name).toBe('Vietnamese');
+            expect(viVN.stems['甲']).toBe('Giáp');
+            expect(viVN.gates['休门']).toBe('Hưu Môn');
         });
 
         it('should handle template replacement in en-US', () => {

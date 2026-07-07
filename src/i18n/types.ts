@@ -7,7 +7,7 @@ import { HeavenlyStem, EarthlyBranch, Gate, Star, Deity, Trigram, StarStatus, Ga
 /**
  * 支持的语言
  */
-export type Locale = 'zh-CN' | 'zh-TW' | 'en-US';
+export type Locale = 'zh-CN' | 'zh-TW' | 'en-US' | 'vi-VN';
 
 /**
  * 语言包消息结构

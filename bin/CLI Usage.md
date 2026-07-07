@@ -7,7 +7,7 @@ npm run build
 或 --year 2008 --month 11 --day 4 --hour 12 --minute 30 --second 0
 
 #### 默认是 exact 表示按立春作为年分界
-可选覆盖：--solarTerm 霜降、--isYangdun false、--juNumber 2、--yearDivide normal|exact、--lang zh-CN|zh-TW|en-US
+可选覆盖：--solarTerm 霜降、--isYangdun false、--juNumber 2、--yearDivide normal|exact、--lang zh-CN|zh-TW|en-US|vi-VN
 输出完整奇门局 JSON。
 --help 查看用法。
 现有 QimenChart.fromSolar/byDatetime 已完成排盘计算（使用 lunar-typescript）。
