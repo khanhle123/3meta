@@ -233,7 +233,7 @@ function translateSpecialPatterns(sp: any, locale: Locale): any {
  * const chart = QimenChart.byDatetime('2023-12-01 12:00:00');
  * console.log(translateChart(chart, 'vi-VN'));
  */
-export function translateChart(chart: any, locale: Locale): any {
+function translateChart(chart: any, locale: Locale): any {
   const previousLocale = i18n.getLocale();
   i18n.setLocale(locale);
   try {

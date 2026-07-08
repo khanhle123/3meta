@@ -23,5 +23,5 @@ import { Locale } from './types';
  * const chart = QimenChart.byDatetime('2023-12-01 12:00:00');
  * console.log(translateChart(chart, 'vi-VN'));
  */
-export declare function translateChart(chart: any, locale: Locale): any;
+declare function translateChart(chart: any, locale: Locale): any;
 export default translateChart;
