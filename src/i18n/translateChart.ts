@@ -18,7 +18,7 @@ import { Locale } from './types';
 // vì chúng là giá trị mặc định/placeholder do QimenChart.ts tự chèn, không phải
 // thuật ngữ Kỳ Môn thật sự. Bổ sung fallback riêng ở đây thay vì sửa các file locale.
 const NONE_FALLBACK: Partial<Record<Locale, Record<string, string>>> = {
-  'vi-VN': { '无': 'Không', '无门': 'Không có Môn', '无神': 'Không có Thần' },
+  'vi-VN': { '无': 'Không', '无门': 'Vô Môn', '无神': 'Vô Thần' },
   'en-US': { '无': 'None', '无门': 'No Gate', '无神': 'No Deity' },
   'zh-TW': { '无': '無', '无门': '無門', '无神': '無神' },
   'zh-CN': {},
