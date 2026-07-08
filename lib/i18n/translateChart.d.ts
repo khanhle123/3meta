@@ -24,4 +24,4 @@ import { Locale } from './types';
  * console.log(translateChart(chart, 'vi-VN'));
  */
 declare function translateChart(chart: any, locale: Locale): any;
-export default translateChart;
+export { translateChart as default };

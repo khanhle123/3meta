@@ -262,4 +262,4 @@ function translateChart(chart: any, locale: Locale): any {
   }
 }
 
-export default translateChart;
+export { translateChart as default };

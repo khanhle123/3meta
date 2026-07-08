@@ -33,4 +33,4 @@ export {
   PALACE_FIVE_ELEMENTS,
   GONG_NAME,
 } from './data/constants';
-export * from './i18n/translateChart';
+export { default as translateChart } from './i18n/translateChart';
