@@ -101,4 +101,4 @@ export { zhTW } from './locales/zh-TW';
 export { enUS } from './locales/en-US';
 export { viVN } from './locales/vi-VN';
 export * from './formatters';
-
+export { translateChart } from './translateChart';
