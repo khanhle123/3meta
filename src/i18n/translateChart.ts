@@ -144,11 +144,17 @@ function translatePatternName(pat: any): string {
 
   for (const candidate of candidates) {
     const auspiciousKey = `auspiciousPatterns.${candidate}`;
-    const auspiciousResult = i18n.t(auspiciousKey);
-    if (auspiciousResult !== auspiciousKey) return auspiciousResult;
+    let auspiciousResult = i18n.t(auspiciousKey);
+    if (auspiciousResult !== auspiciousKey) {
+      if (typeof auspiciousResult === 'object' && auspiciousResult !== null && 'name' in auspiciousResult) {
+        return (auspiciousResult as { name: string }).name;
+      }
+      return auspiciousResult as string;
+    }
 
     const inauspiciousKey = `inauspiciousPatterns.${candidate}`;
     const inauspiciousResult = i18n.t(inauspiciousKey);
+    // The logic for inauspicious patterns in `i18n.t` already returns the name string directly.
     if (inauspiciousResult !== inauspiciousKey) return inauspiciousResult;
   }
 
