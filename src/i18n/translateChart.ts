@@ -169,15 +169,24 @@ function translatePatternName(pat: any): string {
 
 function translatePattern(pat: any): any {
   if (!pat) return pat;
+  const hasChineseName = typeof pat.name === 'string' && /[\u4e00-\u9fff]/.test(pat.name);
+  const hasChineseType = typeof pat.type === 'string' && /[\u4e00-\u9fff]/.test(pat.type);
   return {
     ...pat,
-    name: translatePatternName(pat),
+    name: hasChineseName || hasChineseType ? translatePatternName(pat) : pat.name,
     description: formatPattern(pat),
   };
 }
 
 function translatePalace(p: any, locale: Locale): any {
   if (!p) return p;
+  const translatePatternEntry = (pat: any) => {
+    const translated = translatePattern(pat);
+    if (typeof translated.name === 'string' && /[\u4e00-\u9fff]/.test(translated.name)) {
+      return { ...translated, name: translatePatternName(pat) };
+    }
+    return translated;
+  };
   return {
     ...p,
     trigram: tr('trigrams', p.trigram, locale),
@@ -200,8 +209,8 @@ function translatePalace(p: any, locale: Locale): any {
     growthInfo: translateGrowthInfo(p.growthInfo, locale),
     tombInfo: translateTombInfo(p.tombInfo, locale),
     tenStemResponse: translateTenStemResponse(p.tenStemResponse, locale),
-    auspiciousPatterns: Array.isArray(p.auspiciousPatterns) ? p.auspiciousPatterns.map(translatePattern) : p.auspiciousPatterns,
-    inauspiciousPatterns: Array.isArray(p.inauspiciousPatterns) ? p.inauspiciousPatterns.map(translatePattern) : p.inauspiciousPatterns,
+    auspiciousPatterns: Array.isArray(p.auspiciousPatterns) ? p.auspiciousPatterns.map(translatePatternEntry) : p.auspiciousPatterns,
+    inauspiciousPatterns: Array.isArray(p.inauspiciousPatterns) ? p.inauspiciousPatterns.map(translatePatternEntry) : p.inauspiciousPatterns,
   };
 }
 
