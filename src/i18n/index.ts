@@ -60,9 +60,9 @@ class I18n {
     }
 
     // 如果是对象，尝试获取 name 字段
-    if (typeof value === 'object' && value !== null && 'name' in value) {
-      value = value.name;
-    }
+    // if (typeof value === 'object' && value !== null && 'name' in value) {
+    //   value = value.name;
+    // }
 
     // 模板替换
     if (typeof value === 'string' && params) {
