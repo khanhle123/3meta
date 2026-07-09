@@ -173,13 +173,22 @@ export const viVN: LocaleMessages = {
     '虎遁': { name: 'Hổ Độn', description: 'Hổ Độn cát cách' },
     '风遁': { name: 'Phong Độn', description: 'Phong Độn cát cách' },
     '云遁': { name: 'Vân Độn', description: 'Vân Độn cát cách' },
+    '欢怡': { name: 'Hoan Nhi', description: 'Hoan Nhi cát cách' },
+    '门宫和义': { name: 'Môn Cung Hòa Nghĩa', description: 'Môn Cung Hòa Nghĩa cát cách' },
+    '三奇贵人升殿': { name: 'Tam Kỳ Quý Nhân Thăng Điện', description: 'Tam Kỳ Quý Nhân Thăng Điện cát cách' },
+    '三奇得使': { name: 'Tam Kỳ Đắc Sứ', description: 'Tam Kỳ Đắc Sứ cát cách' },
+    '玉女守门': { name: 'Ngọc Nữ Thủ Môn', description: 'Ngọc Nữ Thủ Môn cát cách' },
+    '青龙返首': { name: 'Thanh Long Phản Thủ', description: 'Thanh Long Phản Thủ cát cách' },
+    '飞鸟跌穴': { name: 'Phi Điểu Điệp Huyệt', description: 'Phi Điểu Điệp Huyệt cát cách' },
   },
 
   inauspiciousPatterns: {
     '六仪击刑': { name: 'Lục Nghi Kích Hình', description: 'Lục Nghi kích hình hung cách' },
-    '门迫': { name: 'Môn Bách', description: 'Môn Bách hung cách' },
-    '门受制': { name: 'Môn Thụ Chế', description: 'Môn Thụ Chế hung cách' },
+    '门迫': { name: 'Môn khắc Cung', description: 'Môn khắc Cung hung cách' },
+    '门受制': { name: 'Cung khắc Môn', description: 'Cung khắc Môn hung cách' },
     '五不遇时': { name: 'Ngũ Bất Ngộ Thời', description: 'Ngũ Bất Ngộ Thời hung cách' },
+    '螣蛇夭矫': { name: 'Đằng Xà Yêu Kiều', description: 'Đằng Xà Yêu Kiều hung cách' },
+    '青龙逃走': { name: 'Thanh Long Đào Tẩu', description: 'Thanh Long Đào Tẩu hung cách' },
   },
 
   patterns: {

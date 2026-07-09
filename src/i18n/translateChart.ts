@@ -148,6 +148,18 @@ function translatePatternName(pat: any): string {
   const inauspiciousResult = i18n.t(inauspiciousKey);
   if (inauspiciousResult !== inauspiciousKey) return inauspiciousResult;
 
+  const formatted = formatPattern(pat);
+  if (formatted) {
+    const separatorIndex = formatted.search(/[:：]/);
+    if (separatorIndex >= 0) {
+      const nameFromTemplate = formatted.slice(0, separatorIndex).trim();
+      if (nameFromTemplate) return nameFromTemplate;
+    }
+    if (formatted !== pat.name && formatted !== pat.description) {
+      return formatted;
+    }
+  }
+
   return pat.name;
 }
 

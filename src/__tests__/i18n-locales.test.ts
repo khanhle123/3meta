@@ -1,5 +1,6 @@
 
 import { i18n } from '../i18n/index';
+import translateChart from '../i18n/translateChart';
 import { zhCN } from '../i18n/locales/zh-CN';
 import { zhTW } from '../i18n/locales/zh-TW';
 import { enUS } from '../i18n/locales/en-US';
@@ -63,6 +64,56 @@ describe('Phase 3: Locale Expansion', () => {
             const text = i18n.t(patternKey, params);
             // "天遁：天盤{heaven} + 地盤{earth} + {gate}"
             expect(text).toBe('天遁：天盤丙 + 地盤丁 + 生門');
+        });
+
+        it('should translate pattern names and descriptions to Vietnamese in translateChart output', () => {
+            const chart = {
+                version: '2.0.0',
+                timeInfo: {},
+                fourPillars: {},
+                ju: {},
+                yuan: '元',
+                season: '冬',
+                monthElement: '水',
+                zhiFu: {},
+                zhiShi: {},
+                postHorse: {},
+                palaces: [
+                    {
+                        position: 1,
+                        trigram: '坎',
+                        gate: '开门',
+                        star: '天蓬',
+                        deity: '值符',
+                        heavenlyStem: '戊',
+                        earthlyStem: '丙',
+                        earthBranch: '子',
+                        voidness: {},
+                        fiveElements: '水',
+                        status: { star: '无', gate: '无' },
+                        innerOuter: '内盘',
+                        gatePressure: '无',
+                        growthInfo: {},
+                        tombInfo: {},
+                        tenStemResponse: {},
+                        auspiciousPatterns: [{ type: '欢怡', name: '欢怡', id: 'patterns.common.huan_yi', params: { earth: '丙', deity: '值符' }, description: '地盘乙/丙/丁+值符' }],
+                        inauspiciousPatterns: [{ type: '螣蛇夭矫', name: '螣蛇夭矫', id: 'patterns.bad.teng_she_yao_jiao', params: { heaven: '癸', earth: '丁' }, description: '天盘癸+地盘丁' }],
+                    },
+                ],
+                hiddenStems: new Map(),
+                specialPatterns: {
+                    menPo: [],
+                    auspiciousPatterns: [{ type: '门宫和义', name: '门宫和义', id: 'patterns.common.men_gong_sheng', params: { gate: '开门', palace: 1 }, description: '和：门生宫 (开门生1宫)' }],
+                    inauspiciousPatterns: [{ type: '玉女守门', name: '玉女守门', id: 'patterns.common.yu_nu_shou_men', params: { earth: '丁' }, description: '地盘丁落值使门，主贵人' }],
+                },
+            } as any;
+
+            const result = translateChart(chart, 'vi-VN');
+            expect(result.palaces[0].auspiciousPatterns[0].name).toBe('Hoan Nhi');
+            expect(result.palaces[0].auspiciousPatterns[0].description).toContain('Địa bàn');
+            expect(result.palaces[0].inauspiciousPatterns[0].name).toBe('Đằng Xà Yêu Kiều');
+            expect(result.specialPatterns.auspiciousPatterns[0].name).toBe('Môn Cung Hòa Nghĩa');
+            expect(result.specialPatterns.inauspiciousPatterns[0].name).toBe('Ngọc Nữ Thủ Môn');
         });
     });
 });
