@@ -140,13 +140,17 @@ function translateTenStemResponse(r: any, locale: Locale): any {
 
 /** Dịch tên ngắn (name) của 1 cách cục dựa trên field `type` (tên tiếng Trung gốc). */
 function translatePatternName(pat: any): string {
-  const auspiciousKey = `auspiciousPatterns.${pat.type}`;
-  const auspiciousResult = i18n.t(auspiciousKey);
-  if (auspiciousResult !== auspiciousKey) return auspiciousResult;
+  const candidates = [pat.type, pat.name].filter(Boolean) as string[];
 
-  const inauspiciousKey = `inauspiciousPatterns.${pat.type}`;
-  const inauspiciousResult = i18n.t(inauspiciousKey);
-  if (inauspiciousResult !== inauspiciousKey) return inauspiciousResult;
+  for (const candidate of candidates) {
+    const auspiciousKey = `auspiciousPatterns.${candidate}`;
+    const auspiciousResult = i18n.t(auspiciousKey);
+    if (auspiciousResult !== auspiciousKey) return auspiciousResult;
+
+    const inauspiciousKey = `inauspiciousPatterns.${candidate}`;
+    const inauspiciousResult = i18n.t(inauspiciousKey);
+    if (inauspiciousResult !== inauspiciousKey) return inauspiciousResult;
+  }
 
   const formatted = formatPattern(pat);
   if (formatted) {
